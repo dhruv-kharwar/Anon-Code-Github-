@@ -58,51 +58,30 @@ remove(geordi_anonymous,geordi_nonanonymous,unique_combination) # remove unneces
 #
 
 
-# These are all the high-level event
-#  [1] "classify"                "login"                   "register-link"           "talk-view"              
-#  [5] "view-profile-sidebar"    "project-menu"            "close-field-guide"       "open-field-guide"       
-#  [9] "profile-menu"            "metadata"                "change-page"             "footer-menu"            
-# [13] "top-menu"                "register"                "view-discussion"         "view-profile-author"    
-# [17] "collect-menu"            "about-menu"              "change-project-sidebar"  "hashtag-sidebar"        
-# [21] "subject-image"           "discussion-time"         "breadcrumb"              "view-subject-direct"    
-# [25] "reply-post"              "search"                  "tutorial-completion"     "search-back"            
-# [29] "interventionStart"       "recent-comments-sidebar" "like-post"               "classificationStart"    
-# [33] "globe-menu"              "link-post"               "favorite"                "edit-post"              
-# [37] "update-comment"          "new-discussion"          "add-comment"             "logout"                 
-# [41] "delete-post"             "unfavorite"              "subscribe"               "message-user"           
-# [45] "send-message"            "report-post"             "experimentStart"         "mini-course-completion" 
-
-# 637 relatedIDs
+# 47 type:
+# 637 relatedIDs:
 # 9533 data: includes search terms
-
 
 # concatenate events data
 geordi$new.categories <- paste(geordi$type, geordi$relatedID, geordi$data, sep="-")
 
 # get unique events to determine activity
-events <- unique(geordi[c("type","new.categories")])
-
+# events <- unique(geordi[c("type","new.categories","breadcrumb")]) completed this step in previous analysis and manually labeled events
+events <- read_csv("Dropbox/INSPIRE/Papers & Presentations/Anonymous Work (Journal)/events.csv")
 # remove highlevel events not needed for analysis
-events <- events[which(!events$type %in% c("experimentStart",)),]
+events <- events[which(!is.na(events$new.category)),]
+# merge names of events
+geordi <- merge(geordi,events, by="new.categories", all.x=TRUE)
 
-           
-#  [9]                                         "footer-menu"            
-# [13] "top-menu"                "register"                "view-discussion"         "view-profile-author"    
-# [17] "collect-menu"            "about-menu"              "change-project-sidebar"  "hashtag-sidebar"        
-# [21] "subject-image"           "discussion-time"         "breadcrumb"              "view-subject-direct"    
-# [25] "reply-post"              "search"                  "tutorial-completion"     "search-back"            
-# [29] "interventionStart"       "recent-comments-sidebar" "like-post"               "classificationStart"    
-# [33] "globe-menu"              "link-post"               "favorite"                "edit-post"              
-# [37] "update-comment"          "new-discussion"          "add-comment"             "logout"                 
-# [41] "delete-post"             "unfavorite"              "subscribe"               "message-user"           
-# [45] "send-message"            "report-post"             ""         "mini-course-completion" 
-
-investigate high-level
-"project-menu"
-"view-profile-sidebar"
-"profile-menu" 
-"metadata"
-"change-page"
+# get new datasets for analysis
+geordiremoved <- geordi[which(is.na(geordi$new.category)),]
+geordi <- geordi[which(!is.na(geordi$new.category)),]
 
 
 
+
+
+
+
+
+ 
