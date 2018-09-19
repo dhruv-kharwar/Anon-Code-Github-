@@ -26,7 +26,7 @@ geordi <- geordi[,-c(3,8,10:17,19)]
 
 joindate <- ddply(geordi,"userID",summarize,
                   firstclass = min(time[which(type=='classify')]))
-
+joindate <- joindate[which(joindate$userID!="(anonymous)"),]
 #
 # Identifying anonymous events
 #
