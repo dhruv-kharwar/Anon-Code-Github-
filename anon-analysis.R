@@ -20,6 +20,12 @@ geordi <- read_csv("~/Dropbox/INSPIRE/Data/System dumps/geordi-1-5-17.csv") # Th
 # remove unnecessary columns 
 geordi <- geordi[,-c(3,8,10:17,19)]
 
+#
+# First logged in
+#
+
+joindate <- ddply(geordi,"userID",summarize,
+                  firstclass = min(time[which(type=='classify')]))
 
 #
 # Identifying anonymous events
